@@ -1,0 +1,85 @@
+# Each case lists the acceptable kinds for the main recommendation ("primary.kind").
+# Kinds: emergency, helpline, student_health, occupational, public_health_centre, private, pharmacy, other
+- id: exch-espoo-ear-night
+  status: exchange_student
+  city: Espoo
+  problem: "I'm an exchange student at Aalto. My ear has hurt since this morning and it's getting worse. It's Saturday night."
+  expect: [helpline, emergency, private, public_health_centre]
+- id: degree-hki-rash-weekday
+  status: degree_student
+  city: Helsinki
+  problem: "Degree student at University of Helsinki. Itchy rash on my arms for 4 days, no fever. When can I see someone?"
+  expect: [student_health]
+- id: employee-tampere-back
+  status: employee
+  city: Tampere
+  problem: "I work as a software engineer. My lower back has hurt for two weeks and it's not getting better."
+  kela_card: true
+  expect: [occupational]
+- id: visitor-us-fever-hki
+  status: non_eu_visitor
+  city: Helsinki
+  problem: "I'm visiting for a conference. Fever of 38.5 and a sore throat since yesterday."
+  travel_insurance: true
+  expect: [private, helpline]
+- id: eu-visitor-turku-ankle
+  status: eu_visitor
+  city: Turku
+  problem: "German tourist. I twisted my ankle an hour ago, it's swollen but I can walk a little. I have my EHIC card."
+  ehic: true
+  expect: [public_health_centre, emergency, helpline]
+- id: resident-vantaa-checkup
+  status: resident
+  city: Vantaa
+  problem: "I moved here with my husband 3 months ago and have a residence permit. I need a prescription renewed for my thyroid medicine."
+  expect: [public_health_centre]
+- id: chest-pain-redflag
+  status: employee
+  city: Helsinki
+  problem: "Sudden chest pain spreading to my left arm for 20 minutes, I'm sweating."
+  expect: [emergency]
+- id: degree-oulu-mental
+  status: degree_student
+  city: Oulu
+  problem: "I'm a master's student. I've been feeling very low and anxious for weeks and can't sleep. Who can I talk to?"
+  expect: [student_health]
+- id: exch-tampere-dentist
+  status: exchange_student
+  city: Tampere
+  problem: "Exchange student, toothache for 3 days, painkillers don't help anymore."
+  expect: [public_health_centre, private, student_health, helpline]
+- id: employee-espoo-child-fever
+  status: employee
+  city: Espoo
+  problem: "My 4-year-old has had a fever of 39 since this afternoon. It's Sunday evening. Where do we go?"
+  expect: [helpline, emergency, public_health_centre, private]
+- id: visitor-uk-asthma-inhaler
+  status: non_eu_visitor
+  city: Helsinki
+  problem: "I'm visiting from the UK and forgot my asthma inhaler at home. I'm fine right now but need a new one."
+  expect: [private, pharmacy, public_health_centre]
+- id: resident-jyvaskyla-finnish
+  status: resident
+  city: Jyväskylä
+  problem: "Minulla on ollut yskää kolme viikkoa eikä se mene ohi."
+  expect: [public_health_centre]
+- id: degree-turku-std-test
+  status: degree_student
+  city: Turku
+  problem: "Degree student. I'd like to get tested for STIs, no symptoms."
+  expect: [student_health, public_health_centre]
+- id: employee-oulu-eye
+  status: employee
+  city: Oulu
+  problem: "I got something in my eye at work an hour ago, it's red and hurts a lot."
+  expect: [occupational, emergency, public_health_centre, helpline]
+- id: eu-visitor-hki-pregnant
+  status: eu_visitor
+  city: Helsinki
+  problem: "I'm 30 weeks pregnant, visiting from France, and have some light bleeding."
+  expect: [emergency, helpline]
+- id: exch-hki-vaccine
+  status: exchange_student
+  city: Helsinki
+  problem: "Exchange student. I need a tetanus booster before a trip, nothing urgent."
+  expect: [public_health_centre, student_health, private]

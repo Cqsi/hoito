@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hoito · Where do I go?</title>
+<meta name="description" content="Healthcare in Finland for internationals. Where to go, what it costs, what Kela pays back. Every fact quoted from an official page, fetched live.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%23121214'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%232F6BFF'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F6F4; --card:#FFFFFF; --text:#121214; --muted:#8B8B92; --hairline:#ECECE8; --ink:#121214; --on-ink:#FFFFFF;
+  --brand:#2F6BFF; --brand-soft:#EAF0FF; --ok:#00A843; --ok-soft:#E6F6EC;
+  --warn:#B86E00; --warn-soft:#FFF3DF; --bad:#D92D20; --bad-soft:#FDECEA; --mark:#FFF1B8;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E0E10; --card:#1A1A1D; --text:#F3F3F1; --muted:#8B8B92; --hairline:#2A2A2E; --ink:#F3F3F1; --on-ink:#121214;
+  --brand:#6E9BFF; --brand-soft:#16223D; --ok:#2FD072; --ok-soft:#123522;
+  --warn:#F2B45A; --warn-soft:#3A2A10; --bad:#FF8A7E; --bad-soft:#3C1714; --mark:#4A3F12;
+}}
+:root[data-theme="dark"]{
+  --bg:#0E0E10; --card:#1A1A1D; --text:#F3F3F1; --muted:#8B8B92; --hairline:#2A2A2E; --ink:#F3F3F1; --on-ink:#121214;
+  --brand:#6E9BFF; --brand-soft:#16223D; --ok:#2FD072; --ok-soft:#123522;
+  --warn:#F2B45A; --warn-soft:#3A2A10; --bad:#FF8A7E; --bad-soft:#3C1714; --mark:#4A3F12;
+}
+*{box-sizing:border-box} html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:400 15px/1.5 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:680px;margin:0 auto;padding:20px 20px calc(64px + env(safe-area-inset-bottom))}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+a{color:inherit}
+.muted{color:var(--muted)}
+
+/* top bar */
+.bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px}
+.logo{font-weight:600;font-size:17px;letter-spacing:-.3px;display:flex;align-items:center;gap:8px}
+.logo i{width:22px;height:22px;border-radius:7px;background:var(--ink);display:inline-block;position:relative}
+.logo i:after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--brand)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:6px 12px;border-radius:999px;background:var(--card)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none}
+.dot.ok{background:var(--ok)} .dot.warn{background:var(--warn)} .dot.bad{background:var(--bad)} .dot.brand{background:var(--brand)}
+
+h1{font-weight:300;font-size:38px;line-height:1.1;letter-spacing:-1.2px;margin:0 0 8px}
+.lede{color:var(--muted);margin:0 0 24px;font-size:16px;max-width:520px}
+.card{background:var(--card);border-radius:28px;padding:22px}
+.section{display:flex;justify-content:space-between;align-items:baseline;margin:30px 4px 12px;gap:12px}
+.section h2{font-size:20px;font-weight:500;letter-spacing:-.4px;margin:0}
+.section span{font-size:13px;color:var(--muted);text-align:right}
+@media (max-width:480px){ .section span.opt{display:none} h1{font-size:31px;letter-spacing:-.8px} .bar{margin-bottom:26px} .card{border-radius:24px;padding:18px} .rows{padding:4px 18px!important} .rule-row{margin:0 -18px!important;padding:14px 18px!important} }
+
+/* form */
+.label{font-size:13px;font-weight:500;color:var(--muted);margin:0 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:14px;font-weight:500;padding:8px 14px;border-radius:999px;background:var(--bg);color:var(--text);transition:background .12s}
+.chip:hover{background:var(--hairline)}
+.chip.on{background:var(--ink);color:var(--on-ink)}
+.chip.tog.on{background:var(--brand-soft);color:var(--brand)}
+.chip.tog.on:before{content:"✓ "}
+.grid2{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;align-items:center}
+.field{display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:999px;padding:8px 16px;min-width:200px;flex:1}
+.field input{border:0;outline:0;background:transparent;width:100%;font-size:15px}
+.field b{font-weight:500;color:var(--muted);font-size:13px}
+textarea{width:100%;border:0;outline:0;background:transparent;resize:none;font-size:18px;line-height:1.45;min-height:88px;overflow:hidden;padding:0;margin-top:18px}
+textarea::placeholder{color:var(--muted)}
+.divider{height:1px;background:var(--hairline);margin:16px 0 14px}
+.examples{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.examples button{font-size:13px;font-weight:500;padding:7px 12px;border-radius:999px;border:1px solid var(--hairline);color:var(--muted)}
+.examples button:hover{color:var(--text);border-color:var(--muted)}
+.go{display:flex;align-items:center;justify-content:space-between;width:100%;background:var(--ink);color:var(--on-ink);border-radius:22px;padding:14px 14px 14px 22px;margin-top:16px;font-size:17px;font-weight:500}
+.go b{width:36px;height:36px;border-radius:50%;background:var(--brand);display:grid;place-items:center;color:#fff;font-size:18px;transition:transform .2s}
+.go:hover b{transform:translateX(2px)}
+.go:disabled{opacity:.55;cursor:default}
+.go.busy b{animation:spin 1s linear infinite}
+.go.busy b:before{content:"";width:14px;height:14px;border:2px solid #fff;border-right-color:transparent;border-radius:50%}
+.go.busy b span{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* emergency */
+.sos{display:none;background:var(--bad-soft);border-radius:28px;padding:22px;margin-top:16px}
+.sos .verdict{color:var(--bad)}
+.sos a{display:inline-flex;align-items:center;gap:8px;background:var(--bad);color:#fff;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:999px;margin-top:14px}
+
+/* steps */
+.rows{padding:6px 22px}
+.row{display:flex;gap:14px;align-items:flex-start;padding:14px 0}
+.row + .row{border-top:1px solid var(--hairline)}
+.row .main{flex:1;min-width:0}
+.row .title{font-weight:500}
+.row .sub{font-size:13px;color:var(--muted);margin-top:2px}
+.num{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--hairline);display:grid;place-items:center;font-size:12px;font-weight:600;color:var(--muted);flex:none;position:relative}
+.num.run{border-color:var(--brand);border-right-color:transparent;animation:spin .9s linear infinite;color:transparent}
+.num.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.num.bad{background:var(--bad);border-color:var(--bad);color:#fff}
+.doms{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.dom{font-size:12px;font-weight:500;padding:3px 9px;border-radius:999px;background:var(--bg);color:var(--muted);display:inline-flex;gap:6px;align-items:center}
+.dom img{width:12px;height:12px;border-radius:3px}
+.step-in{animation:rise .25s ease-out}
+@keyframes rise{from{opacity:0;transform:translateY(4px)}}
+
+/* answer */
+.eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:5px 11px;border-radius:999px;margin-bottom:12px}
+.t-emergency{background:var(--bad-soft);color:var(--bad)} .t-today{background:var(--warn-soft);color:var(--warn)}
+.t-this_week{background:var(--brand-soft);color:var(--brand)} .t-routine{background:var(--ok-soft);color:var(--ok)}
+.verdict{font-size:26px;font-weight:500;letter-spacing:-.6px;line-height:1.2}
+.summary{color:var(--muted);margin-top:8px}
+.place{margin-top:18px;padding-top:16px;border-top:1px solid var(--hairline)}
+.place .name{font-weight:600;font-size:17px}
+.place .when{font-size:13px;color:var(--muted)}
+.facts{list-style:none;margin:10px 0 0;padding:0}
+.facts li{padding:6px 0 6px 18px;position:relative}
+.facts li:before{content:"";position:absolute;left:2px;top:15px;width:6px;height:6px;border-radius:50%;background:var(--brand)}
+.cite{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;margin-left:4px;border-radius:999px;background:var(--brand-soft);color:var(--brand);font-size:11.5px;font-weight:600;vertical-align:2px;transition:transform .1s}
+.cite:hover{transform:scale(1.1)}
+.cite.near{background:var(--warn-soft);color:var(--warn)}
+.kind{font-size:12px;font-weight:500;color:var(--muted);background:var(--bg);padding:2px 9px;border-radius:999px;white-space:nowrap}
+.heads{background:var(--warn-soft)} .heads .facts{margin:0} .heads .facts li:before{background:var(--warn)}
+.say{white-space:pre-wrap;font-size:15px;margin-top:14px;line-height:1.55}
+.seg{display:inline-flex;background:var(--bg);border-radius:999px;padding:4px;gap:2px}
+.seg button{padding:6px 14px;border-radius:999px;font-size:14px;font-weight:500;color:var(--muted)}
+.seg button.on{background:var(--card);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:11px 18px;border-radius:999px;font-weight:500;background:var(--bg);text-decoration:none;font-size:14px}
+.btn.dark{background:var(--ink);color:var(--on-ink)}
+.src .n{width:28px;height:28px;border-radius:50%;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-size:12px;font-weight:600;flex:none}
+.src{cursor:pointer}
+.src:hover .title{text-decoration:underline}
+.badge{font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--ok-soft);color:var(--ok);margin-left:6px;white-space:nowrap}
+.foot{font-size:13px;color:var(--muted);margin:14px 4px 0;line-height:1.6}
+.verified{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;margin-top:12px}
+.empty{padding:16px 0;color:var(--muted);font-size:14px}
+#answer,#progress{display:none}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
+.scrim.open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:50%;bottom:0;width:min(680px,100%);transform:translate(-50%,105%);transition:transform .25s ease;background:var(--card);border-radius:28px 28px 0 0;padding:10px 22px calc(26px + env(safe-area-inset-bottom));max-height:82vh;overflow:auto;z-index:6;box-shadow:0 -10px 40px rgba(0,0,0,.12)}
+.sheet.open{transform:translate(-50%,0)}
+.grab{width:40px;height:5px;border-radius:9px;background:var(--hairline);margin:4px auto 16px}
+.sheet h3{font-size:20px;font-weight:500;letter-spacing:-.4px;margin:4px 0 4px;line-height:1.25}
+.meta{font-size:13px;color:var(--muted);display:flex;gap:6px 14px;flex-wrap:wrap}
+.q{margin-top:16px;padding:14px 16px;border-radius:18px;background:var(--bg)}
+.q .claim{font-weight:500;font-size:14px}
+.q blockquote{margin:8px 0 0;font-size:14px;line-height:1.55;color:var(--text)}
+.q mark{background:var(--mark);color:inherit;padding:1px 2px;border-radius:4px}
+.q .chk{font-size:12px;font-weight:600;color:var(--ok);margin-top:8px}
+.q .chk.near{color:var(--warn)}
+.disclaimer{font-size:12.5px;color:var(--muted);text-align:center;margin-top:40px}
+</style>
+</head>
+<body>
+<main>
+  <div class="bar">
+    <div class="logo"><i></i>Hoito</div>
+    <span class="pill" id="health"><span class="dot"></span>Connecting</span>
+  </div>
+
+  <h1>Where do I go?</h1>
+  <p class="lede">Healthcare in Finland, for internationals. Where to go, what it costs and what Kela pays back. Every fact is quoted from an official page, fetched live.</p>
+
+  <form class="card" id="form" autocomplete="off">
+    <p class="label">I'm a…</p>
+    <div class="chips" id="status"></div>
+    <div class="grid2">
+      <label class="field"><b>City</b><input id="city" list="cities" value="Helsinki" required aria-label="City"></label>
+      <datalist id="cities"></datalist>
+    </div>
+    <div class="chips" style="margin-top:10px" id="toggles">
+      <button type="button" class="chip tog" data-k="kela_card">Kela card</button>
+      <button type="button" class="chip tog" data-k="ehic">EHIC card</button>
+      <button type="button" class="chip tog" data-k="travel_insurance">Travel insurance</button>
+    </div>
+    <textarea id="problem" rows="3" placeholder="What's wrong, and since when? Any language is fine." aria-label="What's wrong" required></textarea>
+    <div class="divider"></div>
+    <div class="examples" id="examples"></div>
+    <button class="go" id="go" type="submit">Find care <b><span>→</span></b></button>
+  </form>
+
+  <div class="sos" id="sos">
+    <div class="verdict">Call 112 now</div>
+    <div class="summary" id="sosWhy" style="color:var(--text)"></div>
+    <a href="tel:112">📞 Call 112</a>
+  </div>
+
+  <div id="progress">
+    <div class="section"><h2>What I'm checking</h2><span id="progHint">Live on the web</span></div>
+    <div class="card rows" id="steps"></div>
+  </div>
+
+  <div id="answer">
+    <div class="section"><h2>Where to go</h2><span id="when"></span></div>
+    <div class="card" id="main"></div>
+
+    <div id="costsWrap">
+      <div class="section"><h2>What it costs</h2><span>For your status</span></div>
+      <div class="card rows" id="costs"></div>
+    </div>
+
+    <div id="altWrap">
+      <div class="section"><h2>Other options</h2><span></span></div>
+      <div class="card rows" id="alts"></div>
+    </div>
+
+    <div id="headsWrap">
+      <div class="section"><h2>Heads-up</h2><span>From this month's news</span></div>
+      <div class="card heads" id="heads"></div>
+    </div>
+
+    <div id="bringWrap">
+      <div class="section"><h2>Bring with you</h2><span></span></div>
+      <div class="card rows" id="bring"></div>
+    </div>
+
+    <div class="section"><h2>Say this at reception</h2><span class="opt">Copy, read out or paste into a booking chat</span></div>
+    <div class="card">
+      <div class="seg" id="lang"><button class="on" data-l="fi">Suomeksi</button><button data-l="en">In English</button></div>
+      <div class="say" id="say"></div>
+      <div class="actions">
+        <button class="btn dark" id="copy">Copy message</button>
+        <a class="btn" href="tel:116117">📞 Medical helpline 116117</a>
+      </div>
+    </div>
+
+    <div class="section"><h2>Sources</h2><span id="srcHint"></span></div>
+    <div class="card rows" id="sources"></div>
+    <p class="foot" id="stats"></p>
+  </div>
+
+  <p class="disclaimer">Hoito tells you where to go. It does not diagnose. In an emergency, call 112.<br>Built with Exa at Junction 2026.</p>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet" aria-live="polite"></aside>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fav = d => `https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=32`;
+const URGENCY = {emergency:"Emergency", today:"Go today", this_week:"Within a few days", routine:"Book when convenient"};
+const KIND = {emergency:"Emergency", helpline:"Helpline", student_health:"Student health", occupational:"Occupational health",
+  public_health_centre:"Public health centre", private:"Private clinic", pharmacy:"Pharmacy", other:"Other"};
+const EXAMPLES = [
+  {t:"Exchange student, ear pain on Saturday night", status:"exchange_student", city:"Espoo", p:"I'm an exchange student at Aalto. My ear has hurt since this morning and it's getting worse. It's Saturday night."},
+  {t:"Employee, back pain for two weeks", status:"employee", city:"Tampere", p:"I work as a software engineer here. My lower back has hurt for two weeks and it's not getting better.", kela_card:true},
+  {t:"Visiting from the US, fever", status:"non_eu_visitor", city:"Helsinki", p:"I'm visiting for a conference. I've had a fever of 38.5 and a sore throat since yesterday.", travel_insurance:true},
+];
+const theme = new URLSearchParams(location.search).get("theme");
+if (theme) document.documentElement.dataset.theme = theme;
+
+let status = "degree_student", toggles = {}, result = null, lang = "fi", srcNum = {};
+
+async function init(){
+  fetch("/api/health").then(r => r.json()).then(h => {
+    const ok = h.exa && h.llm, who = h.provider === "claude" ? "Claude" : "GPT";
+    $("health").innerHTML = `<span class="dot ${ok ? "ok" : "bad"}"></span>${ok ? `Live · Exa + ${who}` : "API keys missing"}`;
+  }).catch(() => $("health").innerHTML = `<span class="dot bad"></span>Offline`);
+  const o = await (await fetch("/api/options")).json();
+  $("status").innerHTML = Object.entries(o.statuses).map(([k, v]) =>
+    `<button type="button" class="chip" data-s="${k}" title="${esc(v)}">${esc(LABEL[k] || k)}</button>`).join("");
+  $("cities").innerHTML = o.cities.map(c => `<option value="${esc(c)}">`).join("");
+  setStatus(status);
+  $("status").onclick = e => { const b = e.target.closest("button"); if (b) setStatus(b.dataset.s); };
+  $("toggles").onclick = e => { const b = e.target.closest("button"); if (!b) return; toggles[b.dataset.k] = !toggles[b.dataset.k]; b.classList.toggle("on", !!toggles[b.dataset.k]); };
+  $("examples").innerHTML = EXAMPLES.map((x, i) => `<button type="button" data-i="${i}">${esc(x.t)}</button>`).join("");
+  $("examples").onclick = e => { const b = e.target.closest("button"); if (b) fillExample(EXAMPLES[b.dataset.i]); };
+  $("form").onsubmit = e => { e.preventDefault(); ask(); };
+  $("problem").oninput = grow;
+  $("problem").onkeydown = e => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) ask(); };
+  $("lang").onclick = e => { const b = e.target.closest("button"); if (!b) return; lang = b.dataset.l; renderSay(); };
+  $("copy").onclick = async () => { await navigator.clipboard.writeText($("say").textContent); $("copy").textContent = "Copied ✓"; setTimeout(() => $("copy").textContent = "Copy message", 1500); };
+  $("scrim").onclick = closeSheet;
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
+  document.addEventListener("click", e => { const c = e.target.closest("[data-src]"); if (c) openSource(c.dataset.src); });
+  const ex = new URLSearchParams(location.search).get("example");
+  if (ex && EXAMPLES[ex - 1]) { fillExample(EXAMPLES[ex - 1]); ask(); }
+}
+const LABEL = {degree_student:"Degree student", exchange_student:"Exchange student", employee:"Employee", resident:"Resident, not working", eu_visitor:"EU visitor", non_eu_visitor:"Non-EU visitor"};
+
+function grow(){ const t = $("problem"); t.style.height = "auto"; t.style.height = t.scrollHeight + "px"; }
+function setStatus(s){ status = s; document.querySelectorAll("#status .chip").forEach(b => b.classList.toggle("on", b.dataset.s === s)); }
+function fillExample(x){
+  setStatus(x.status); $("city").value = x.city; $("problem").value = x.p; grow();
+  toggles = {kela_card: !!x.kela_card, travel_insurance: !!x.travel_insurance, ehic: !!x.ehic};
+  document.querySelectorAll("#toggles .chip").forEach(b => b.classList.toggle("on", !!toggles[b.dataset.k]));
+}
+
+async function ask(){
+  const problem = $("problem").value.trim();
+  if (problem.length < 3) { $("problem").focus(); return; }
+  const go = $("go"); go.disabled = true; go.classList.add("busy");
+  $("answer").style.display = "none"; $("sos").style.display = "none";
+  $("progress").style.display = "block"; $("steps").innerHTML = ""; $("progHint").textContent = "Live on the web";
+  addRow("plan", "Planning what to look up", "run");
+  $("progress").scrollIntoView({behavior: "smooth", block: "start"});
+  const t0 = Date.now();
+  const tick = setInterval(() => $("progHint").textContent = `Live on the web · ${Math.round((Date.now() - t0) / 1000)} s`, 1000);
+  try {
+    const res = await fetch("/api/ask", {method: "POST", headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({problem, status, city: $("city").value.trim(), ...toggles,
+        replay: new URLSearchParams(location.search).get("replay") || undefined})});
+    if (!res.ok) throw new Error(await res.text());
+    const reader = res.body.getReader(), dec = new TextDecoder(); let buf = "";
+    for (;;) {
+      const {value, done} = await reader.read(); if (done) break;
+      buf += dec.decode(value, {stream: true});
+      let i; while ((i = buf.indexOf("\n\n")) >= 0) {
+        const chunk = buf.slice(0, i); buf = buf.slice(i + 2);
+        const line = chunk.split("\n").find(l => l.startsWith("data: "));
+        if (line) handle(JSON.parse(line.slice(6)));
+      }
+    }
+  } catch (err) {
+    addRow("err", "Something went wrong", "bad", esc(err.message || err));
+  } finally {
+    clearInterval(tick); go.disabled = false; go.classList.remove("busy");
+    const plan = $("row-plan"); if (plan) plan.remove();
+  }
+}
+
+function addRow(id, title, state, sub = ""){
+  let r = $("row-" + id);
+  if (!r) { r = document.createElement("div"); r.className = "row step-in"; r.id = "row-" + id; $("steps").appendChild(r); }
+  const n = state === "run" ? "" : state === "ok" ? "✓" : state === "bad" ? "!" : "";
+  r.innerHTML = `<div class="num ${state}">${n}</div><div class="main"><div class="title">${esc(title)}</div>${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
+}
+
+function handle(e){
+  if (e.type === "emergency") {
+    $("sos").style.display = "block";
+    $("sosWhy").textContent = `You mentioned ${e.flags.join(", ")}. Don't wait for this page: call the emergency number. I'll keep looking up the nearest emergency department below.`;
+  } else if (e.type === "step") {
+    const plan = $("row-plan"); if (plan) plan.remove();
+    const doms = (e.sources || []).map(s => s.domain).filter((d, i, a) => a.indexOf(d) === i).slice(0, 6);
+    const sub = e.status === "running" ? "" : e.status === "error" ? "Couldn't load this one, trying others"
+      : doms.length ? `<div class="doms">${doms.map(d => `<span class="dom"><img src="${fav(d)}" alt="">${esc(d)}</span>`).join("")}</div>` : "No matching pages";
+    addRow("s" + e.id, e.label, e.status === "running" ? "run" : e.status === "done" ? "ok" : "bad", sub);
+  } else if (e.type === "note") {
+    addRow("n" + Date.now(), e.text, "ok");
+  } else if (e.type === "error") {
+    addRow("e" + Date.now(), e.text, "bad");
+  } else if (e.type === "answer") {
+    result = e; renderAnswer();
+  }
+}
+
+function cite(c){
+  const n = srcNum[c.source_id]; if (!n) return "";
+  return `<button class="cite ${c.verified === "near" ? "near" : ""}" data-src="${esc(c.source_id)}" title="Quoted from source ${n}">${n}</button>`;
+}
+function factList(facts){ return facts.length ? `<ul class="facts">${facts.map(c => `<li>${esc(c.text)}${cite(c)}</li>`).join("")}</ul>` : ""; }
+function factRows(facts){ return facts.map(c => `<div class="row"><div class="main">${esc(c.text)}${cite(c)}</div></div>`).join(""); }
+
+function allClaims(a){
+  return [...[a.primary, ...a.alternatives].flatMap(o => o.facts), ...a.costs, ...a.heads_up, ...a.bring];
+}
+
+function renderAnswer(){
+  const a = result.answer;
+  srcNum = {}; let k = 0;
+  for (const c of allClaims(a)) if (!srcNum[c.source_id]) srcNum[c.source_id] = ++k;
+  const p = a.primary;
+  $("main").innerHTML = `<span class="eyebrow t-${a.urgency}"><span class="dot" style="background:currentColor"></span>${URGENCY[a.urgency] || a.urgency}</span>
+    <div class="verdict">${esc(a.headline)}</div><div class="summary">${esc(a.summary)}</div>
+    <div class="place"><div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div class="name">${esc(p.title)}</div><span class="kind">${KIND[p.kind] || p.kind}</span></div>
+    <div class="when">${esc(p.when)}</div>${factList(p.facts)}</div>`;
+  $("costsWrap").style.display = a.costs.length ? "" : "none"; $("costs").innerHTML = factRows(a.costs);
+  $("altWrap").style.display = a.alternatives.length ? "" : "none";
+  $("alts").innerHTML = a.alternatives.map(o => `<div class="row"><div class="main">
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div class="title">${esc(o.title)}</div><span class="kind">${KIND[o.kind] || o.kind}</span></div>
+    <div class="sub">${esc(o.when)}</div>${factList(o.facts)}</div></div>`).join("");
+  $("headsWrap").style.display = a.heads_up.length ? "" : "none"; $("heads").innerHTML = factList(a.heads_up);
+  $("bringWrap").style.display = a.bring.length ? "" : "none"; $("bring").innerHTML = factRows(a.bring);
+  renderSay();
+  const srcs = [...result.sources].filter(s => srcNum[s.id]).sort((x, y) => srcNum[x.id] - srcNum[y.id]);
+  $("sources").innerHTML = srcs.map(s => `<div class="row src" data-src="${esc(s.id)}"><div class="n">${srcNum[s.id]}</div>
+    <div class="main"><div class="title">${esc(s.title)}</div><div class="sub"><img src="${fav(s.domain)}" alt="" style="width:12px;height:12px;border-radius:3px;vertical-align:-1px"> ${esc(s.domain)}${s.published ? " · published " + fmtDate(s.published) : ""}${s.live ? `<span class="badge">Fetched live</span>` : ""}</div></div></div>`).join("")
+    || `<div class="empty">No sources.</div>`;
+  const st = result.stats;
+  $("srcHint").textContent = `${srcs.length} pages cited of ${st.pages_seen} read`;
+  $("when").textContent = new Date().toLocaleString("en-GB", {weekday: "short", hour: "2-digit", minute: "2-digit"});
+  $("stats").innerHTML = `<span class="verified" style="color:var(--ok)">✓ ${st.verified} of ${st.verified + st.dropped} facts matched word-for-word on their source page${st.dropped ? ` (${st.dropped} unverifiable dropped)` : ""}</span>
+    ${st.exa_calls} Exa calls · ${st.seconds} s · about $${(st.exa_cost + st.llm_cost).toFixed(2)} · ${esc(st.model)}`;
+  $("answer").style.display = "block";
+  $("progHint").textContent = `Done in ${st.seconds} s`;
+  setTimeout(() => $("answer").scrollIntoView({behavior: "smooth", block: "start"}), 150);
+}
+
+function renderSay(){
+  if (!result) return;
+  document.querySelectorAll("#lang button").forEach(b => b.classList.toggle("on", b.dataset.l === lang));
+  $("say").textContent = lang === "fi" ? result.answer.message_fi : result.answer.message_en;
+}
+
+function fmtDate(d){ const x = new Date(d); return isNaN(x) ? d : x.toLocaleDateString("en-GB", {day: "numeric", month: "short", year: "numeric"}); }
+
+function textFragment(url, quote){
+  const words = quote.replace(/\s+/g, " ").trim().split(" ");
+  const frag = words.length > 12 ? `${encodeURIComponent(words.slice(0, 5).join(" "))},${encodeURIComponent(words.slice(-4).join(" "))}` : encodeURIComponent(words.join(" "));
+  return url.split("#")[0] + "#:~:text=" + frag.replace(/-/g, "%2D");
+}
+
+function openSource(id){
+  const s = result.sources.find(x => x.id === id); if (!s) return;
+  const claims = allClaims(result.answer).filter(c => c.source_id === id);
+  $("sheet").innerHTML = `<div class="grab"></div>
+    <div class="meta"><span><img src="${fav(s.domain)}" alt="" style="width:12px;height:12px;border-radius:3px;vertical-align:-1px"> ${esc(s.domain)}</span>
+      ${s.published ? `<span>Published ${fmtDate(s.published)}</span>` : ""}<span>${s.live ? "Fetched live during your search" : "From Exa's index"}</span></div>
+    <h3>${srcNum[id]}. ${esc(s.title)}</h3>
+    ${claims.map(c => `<div class="q"><div class="claim">${esc(c.text)}</div>
+      <blockquote>“<mark>${esc(c.quote)}</mark>”</blockquote>
+      <div class="chk ${c.verified}">${c.verified === "exact" ? "✓ Found word-for-word on the page" : "✓ Found on the page (minor formatting differences)"}</div>
+      <div class="actions" style="margin-top:10px"><a class="btn" href="${esc(textFragment(s.url, c.quote))}" target="_blank" rel="noopener">See it on the page ↗</a></div></div>`).join("")}
+    <div class="actions"><a class="btn dark" href="${esc(s.url)}" target="_blank" rel="noopener">Open ${esc(s.domain)} ↗</a></div>`;
+  $("sheet").classList.add("open"); $("scrim").classList.add("open");
+}
+function closeSheet(){ $("sheet").classList.remove("open"); $("scrim").classList.remove("open"); }
+
+init();
+</script>
+</body>
+</html>

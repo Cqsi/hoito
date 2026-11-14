@@ -1,0 +1,17 @@
+# One-click deploy on Render: New → Blueprint → pick this repo. Set the two keys in the dashboard.
+services:
+  - type: web
+    name: hoito
+    runtime: docker
+    plan: free
+    region: frankfurt
+    healthCheckPath: /api/health
+    envVars:
+      - key: EXA_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4.1
+      - key: HOITO_MAX_PARALLEL
+        value: "6"
