@@ -63,7 +63,7 @@ Exa engineers are on site throughout the event for technical questions and proje
 
 # Hoito: our build
 
-Plan: [PLAN.md](PLAN.md) · Demo script and submission text: [DEMO.md](DEMO.md)
+**Live: https://hoito.onrender.com** · Plan: [PLAN.md](PLAN.md) · Demo script and submission text: [DEMO.md](DEMO.md)
 
 ## Run it
 

@@ -2,7 +2,7 @@
 
 ## Before the demo
 
-1. Open the deployed URL on a phone and on the laptop. Check that the pill top right says **Live · Exa + GPT**.
+1. Open https://hoito.onrender.com on a phone and on the laptop a few minutes early (the free plan sleeps after 15 idle minutes). Check that the pill top right says **Live · Exa + GPT**.
 2. Run the three demo cases once, so Exa's cache is warm and you have recordings to fall back on.
 3. If the venue Wi-Fi fails: open `/?replay=<recording name>` (names at `/api/recordings`). It replays a real earlier run.
 
@@ -28,6 +28,8 @@
 ## Submission text
 
 **Hoito: where do I go?**
+
+Try it: https://hoito.onrender.com · Code: https://github.com/Cqsi/hoito
 
 Healthcare in Finland for internationals. Tell Hoito who you are (student, employee, EU or non-EU visitor), where you are and what's wrong, in any language. It tells you where to go right now, what it costs today, what Kela pays back, and gives you a message in Finnish and English to read out at reception.
 
